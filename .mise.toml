@@ -1,0 +1,13 @@
+[tools]
+node = "latest"
+rust = "stable"
+
+[env]
+DOCKER_IMAGE_NAME = "rqbit"
+DOCKER_VERSION    = "latest"
+
+[tasks.build]
+run = "docker build -t $DOCKER_IMAGE_NAME:$DOCKER_VERSION ."
+
+[tasks.dev]
+run = "docker run -it --rm -p 8000:8000 $DOCKER_IMAGE_NAME:$DOCKER_VERSION"
