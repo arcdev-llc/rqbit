@@ -64,7 +64,7 @@ VOLUME /home/rqbit/downloads
 EXPOSE 3030
 EXPOSE 4240
 
-HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+HEALTHCHECK --interval=1m30s --timeout=10s --start-period=10s --retries=3 \
   CMD curl -f http://localhost:3030/health || exit 1
 
 ENTRYPOINT ["python", "/usr/local/bin/entrypoint.py"]
