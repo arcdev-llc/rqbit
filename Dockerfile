@@ -1,4 +1,6 @@
-FROM debian:12-slim AS builder
+FROM debian:12-slim AS toolchain
+
+LABEL org.opencontainers.image.source="https://github.com/arcdev-llc/rqbit"
 
 ARG TARGETPLATFORM
 
@@ -24,6 +26,8 @@ ENV PATH=/mise/shims:${PATH}
 
 RUN curl https://mise.run | sh
 
+FROM toolchain AS builder
+
 WORKDIR /tmp
 
 COPY .mise.toml /tmp/.mise.toml
@@ -40,11 +44,15 @@ RUN rm -rf /tmp/rqbit
 
 FROM python:3.13-slim
 
+RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+
 COPY --from=builder /usr/local/bin/rqbit /usr/local/bin/rqbit
+
+WORKDIR /home/rqbit
 
 ENV XDG_DATA_HOME=/home/rqbit/db
 ENV XDG_CACHE_HOME=/home/rqbit/cache
-ENV SSL_CERT_FILE=/etc/ssl/cacerts.pem
+ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
 
 COPY entrypoint.py /usr/local/bin/entrypoint.py
 RUN chmod +x /usr/local/bin/entrypoint.py
@@ -56,5 +64,8 @@ VOLUME /home/rqbit/downloads
 EXPOSE 3030
 EXPOSE 4240
 
-ENTRYPOINT ["/usr/local/bin/mise", "exec", "python", "--", "/usr/local/bin/entrypoint.py"]
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+  CMD curl -f http://localhost:3030/health || exit 1
+
+ENTRYPOINT ["python", "/usr/local/bin/entrypoint.py"]
 CMD ["server", "start", "/home/rqbit/downloads"]
