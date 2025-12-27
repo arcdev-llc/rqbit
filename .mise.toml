@@ -10,7 +10,7 @@ TARGET_PLATFORM      = "linux/amd64"
 
 [tasks.build]
 run = '''
-docker build \
+docker buildx build \
   --build-arg TARGETPLATFORM=$TARGET_PLATFORM \
   -t $CONTAINER_REGISTRY/$CONTAINER_IMAGE_NAME:$CONTAINER_VERSION \
   -t $CONTAINER_REGISTRY/$CONTAINER_IMAGE_NAME:latest \
