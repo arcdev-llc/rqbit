@@ -5,7 +5,7 @@ rust = "stable"
 [env]
 CONTAINER_IMAGE_NAME = "arcdev-llc/rqbit"
 CONTAINER_REGISTRY   = "ghcr.io"
-CONTAINER_VERSION    = "0.1.1"
+CONTAINER_VERSION    = "0.1.2"
 TARGET_PLATFORM      = "linux/amd64"
 
 [tasks.build]
