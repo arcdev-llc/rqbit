@@ -1,6 +1,6 @@
-# rqbit-container
+# ArcDev LLC RQBit Container
 
-Docker container for rqbit BitTorrent client with comprehensive environment variable support.
+Docker container for rqbit BitTorrent client with comprehensive environment variable support. This builds the beta version of rqbit with additional env vars mapped to standard cli flags.
 
 ## Quick Start
 
