@@ -1,4 +1,4 @@
-# ArcDev LLC RQBit Container
+# RQBit Container
 
 Docker container for rqbit BitTorrent client with comprehensive environment variable support. This builds the beta version of rqbit with additional env vars mapped to standard cli flags.
 
@@ -16,7 +16,7 @@ docker run -d \
 
 ## Environment Variables
 
-All rqbit CLI flags can be configured via environment variables. Boolean flags accept: `1`, `true`, `yes`, `on` (case-insensitive).
+All rqbit CLI flags can be configured via environment variables. Boolean flags accept: `1`, `true`, `yes`, `on` (case-insensitive). They are mapped via an entrypoint python script.
 
 ### Logging
 
