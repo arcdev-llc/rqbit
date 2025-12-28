@@ -3,9 +3,6 @@ FROM debian:12-slim AS toolchain
 
 LABEL org.opencontainers.image.source="https://github.com/arcdev-llc/rqbit"
 
-ARG TARGETPLATFORM
-ARG MISE_VERSION=v2024.12.0
-
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
@@ -47,9 +44,8 @@ WORKDIR /tmp/rqbit
 
 RUN --mount=type=cache,target=/usr/local/cargo/registry \
     --mount=type=cache,target=/tmp/rqbit/target \
-    cargo build --release
-
-RUN cp target/release/rqbit /usr/local/bin/rqbit
+    cargo build --release \
+    && cp target/release/rqbit /usr/local/bin/rqbit
 
 WORKDIR /
 RUN rm -rf /tmp/rqbit
